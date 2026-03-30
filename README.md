@@ -12,6 +12,7 @@
 | [gray-matter](https://github.com/jonschlinkert/gray-matter) | Markdown frontmatter 解析 |
 | [remark / rehype](https://github.com/remarkjs/remark) | Markdown 转 HTML 处理管道 |
 | [rehype-pretty-code](https://github.com/rehype-pretty-code/rehype-pretty-code) | 代码语法高亮（基于 Shiki） |
+| [remark-gfm](https://github.com/remarkjs/remark-gfm) | GFM 扩展（表格、任务列表等） |
 | [next-themes](https://github.com/pacocoursey/next-themes) | 浅色/深色主题切换 |
 
 ## 已实现功能
@@ -23,6 +24,9 @@
 - **主题切换** — 浅色/深色模式，跟随系统偏好，手动切换并记住选择
 - **响应式布局** — 桌面端和移动端适配
 - **标签系统** — 文章按标签归类，标签总览页 `/tags`，按标签筛选 `/tags/[tag]`
+- **文章目录（TOC）** — 自动提取 h2/h3 标题，桌面端 sticky 侧栏，移动端悬浮面板，滚动高亮
+- **阅读历史** — localStorage 记录首次阅读时间，首页显示已读状态和阅读时间
+- **GFM 支持** — 表格、任务列表等 GitHub 风格 Markdown 扩展
 - **SEO** — 页面 meta、Open Graph 标签
 
 ## 项目结构
@@ -39,10 +43,11 @@ src/
 │   └── about/page.tsx          # 关于页
 ├── components/
 │   ├── layout/                 # 布局组件（Header, Footer, ThemeToggle, Main）
-│   └── post/                   # 文章组件（PostCard, PostBody, TagList）
+│   └── post/                   # 文章组件（PostCard, PostBody, TagList, Toc, ReadingTime, ReadStatus）
 └── lib/
     ├── constants.ts            # 站点配置
-    └── posts.ts                # 文章读取、解析逻辑
+    ├── posts.ts                # 文章读取、解析逻辑
+    └── reading-history.ts      # 阅读历史（localStorage）
 content/posts/                  # Markdown 文章文件
 ```
 
@@ -84,8 +89,6 @@ tags:
 - **全文搜索** — 基于客户端搜索，快速查找文章
 - **RSS 订阅** — 生成 RSS feed，支持订阅器
 - **评论系统** — 集成 Giscus 或类似方案
-- **文章目录（TOC）** — 自动生成侧边目录导航
-- **阅读时间估算** — 根据字数计算预计阅读时间
 - **图片优化** — Next.js Image 组件 + 图片懒加载
 - **国际化（i18n）** — 支持中英文切换
 - **后台管理** — 在线编辑和发布文章（替代直接编辑 Markdown）
