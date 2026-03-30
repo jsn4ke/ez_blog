@@ -48,8 +48,8 @@ export default function Toc({ headings }: TocProps) {
         目录
       </h3>
       <ul className="space-y-1.5 text-sm">
-        {headings.map((h) => (
-          <li key={h.id}>
+        {headings.map((h, i) => (
+          <li key={`${h.id}-${i}`}>
             <button
               type="button"
               onClick={() => handleClick(h.id)}
