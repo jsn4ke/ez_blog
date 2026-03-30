@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { remark } from "remark";
+
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
 
@@ -14,11 +16,18 @@ export interface PostMeta {
 
 export interface Post extends PostMeta {
   content: string;
+  headings: Heading[];
 }
 
 export interface TagInfo {
   tag: string;
   count: number;
+}
+
+export interface Heading {
+  id: string;
+  text: string;
+  level: number;
 }
 
 function isValidPostMeta(
@@ -98,6 +107,7 @@ export function getPostBySlug(slug: string): Post | null {
     excerpt: extractExcerpt(content, data.excerpt),
     tags: extractTags(data),
     content,
+    headings: getHeadings(content),
   };
 }
 
@@ -131,4 +141,39 @@ export function getPostsByTag(tag: string): PostMeta[] {
   return getAllPosts().filter(
     (post) => post.tags.includes(tag)
   );
+}
+
+export function getHeadings(markdown: string): Heading[] {
+  const headings: Heading[] = [];
+
+  function extract(node: unknown, depth: number) {
+    if (depth > 2) return;
+    if (node && typeof node === "object" && "type" in node) {
+      const n = node as { type: string; children?: unknown[]; depth?: number; value?: string };
+      if (n.type === "heading" && (n.depth === 2 || n.depth === 3) && n.children) {
+        const text = (n.children as { value?: string }[])
+          .map((c) => c.value ?? "")
+          .join("");
+        const id = text
+          .toLowerCase()
+          .replace(/[^\w\u4e00-\u9fff]+/g, "-")
+          .replace(/^-|-$/g, "");
+        headings.push({ id, text, level: n.depth });
+      }
+      if (n.children) {
+        for (const child of n.children) {
+          extract(child, depth + 1);
+        }
+      }
+    }
+  }
+
+  try {
+    const tree = remark().parse(markdown);
+    extract(tree, 0);
+  } catch {
+    // fallback: return empty
+  }
+
+  return headings;
 }

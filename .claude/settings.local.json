@@ -17,7 +17,8 @@
       "Bash(lsof:*)",
       "Bash(netstat:*)",
       "Bash(taskkill:*)",
-      "Bash(do echo:*)"
+      "Bash(do echo:*)",
+      "Bash(rm:*)"
     ]
   }
 }

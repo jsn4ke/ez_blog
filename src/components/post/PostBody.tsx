@@ -1,4 +1,5 @@
 import { remark } from "remark";
+import remarkGfm from "remark-gfm";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import remarkRehype from "remark-rehype";
@@ -10,6 +11,7 @@ interface PostBodyProps {
 
 export default async function PostBody({ content }: PostBodyProps) {
   const processedContent = await remark()
+    .use(remarkGfm)
     .use(remarkRehype)
     .use(rehypeSlug)
     .use(rehypePrettyCode, {
