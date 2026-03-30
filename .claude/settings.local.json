@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(openspec new:*)",
+      "Bash(openspec status:*)",
+      "Bash(openspec instructions:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(printf No\\\\nNo\\\\n:*)",
+      "Bash(npm install:*)",
+      "Bash(sed:*)",
+      "Bash(npm run:*)",
+      "Bash(start:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ]
+  }
+}
