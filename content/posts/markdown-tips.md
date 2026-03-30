@@ -2,6 +2,9 @@
 title: "Markdown Tips for Developers"
 date: "2026-03-25"
 excerpt: "Essential Markdown tips and tricks that every developer should know for writing great documentation."
+tags:
+  - markdown
+  - writing
 ---
 
 # Markdown Tips for Developers

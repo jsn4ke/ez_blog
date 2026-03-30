@@ -22,6 +22,12 @@ export default function Header() {
           >
             About
           </Link>
+          <Link
+            href="/tags"
+            className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+          >
+            Tags
+          </Link>
         </nav>
         <ThemeToggle />
       </div>

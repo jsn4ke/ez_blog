@@ -2,6 +2,9 @@
 title: "Hello World"
 date: "2026-03-30"
 excerpt: "Welcome to my blog! This is my first post where I share my journey into tech and programming."
+tags:
+  - blog
+  - intro
 ---
 
 # Hello World

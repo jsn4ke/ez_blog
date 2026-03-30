@@ -2,6 +2,10 @@
 title: "Getting Started with Next.js"
 date: "2026-03-28"
 excerpt: "A quick introduction to Next.js and how to build modern web applications with React."
+tags:
+  - nextjs
+  - react
+  - tutorial
 ---
 
 # Getting Started with Next.js

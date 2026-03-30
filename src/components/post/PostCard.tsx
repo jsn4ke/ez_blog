@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { PostMeta } from "@/lib/posts";
+import TagList from "./TagList";
 
 interface PostCardProps {
   post: PostMeta;
@@ -23,6 +24,7 @@ export default function PostCard({ post }: PostCardProps) {
           day: "numeric",
         })}
       </time>
+      <TagList tags={post.tags} />
       <p className="mt-2 text-[var(--muted-foreground)]">{post.excerpt}</p>
     </article>
   );

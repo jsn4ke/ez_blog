@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Main from "@/components/layout/Main";
 import PostBody from "@/components/post/PostBody";
+import TagList from "@/components/post/TagList";
 import { getPostBySlug, getAllSlugs } from "@/lib/posts";
 import { siteName } from "@/lib/constants";
 
@@ -65,6 +66,9 @@ export default async function PostPage({ params }: PostPageProps) {
               day: "numeric",
             })}
           </time>
+          <div className="mt-3">
+            <TagList tags={post.tags} size="md" />
+          </div>
         </header>
         <PostBody content={post.content} />
       </article>
