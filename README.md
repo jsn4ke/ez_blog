@@ -16,12 +16,13 @@
 
 ## 已实现功能
 
-- **文章管理** — 基于 Markdown 文件，支持 YAML frontmatter（标题、日期、摘要）
+- **文章管理** — 基于 Markdown 文件，支持 YAML frontmatter（标题、日期、摘要、标签）
 - **首页** — 文章列表，按发布日期降序排列
 - **文章详情页** — Markdown 渲染、代码块语法高亮、SEO 元数据
 - **关于页** — 博客和作者介绍
 - **主题切换** — 浅色/深色模式，跟随系统偏好，手动切换并记住选择
 - **响应式布局** — 桌面端和移动端适配
+- **标签系统** — 文章按标签归类，标签总览页 `/tags`，按标签筛选 `/tags/[tag]`
 - **SEO** — 页面 meta、Open Graph 标签
 
 ## 项目结构
@@ -33,10 +34,12 @@ src/
 │   ├── page.tsx                # 首页（文章列表）
 │   ├── globals.css             # 全局样式和主题变量
 │   ├── posts/[slug]/page.tsx   # 文章详情页
+│   ├── tags/page.tsx           # 标签总览页
+│   ├── tags/[tag]/page.tsx     # 标签筛选页
 │   └── about/page.tsx          # 关于页
 ├── components/
 │   ├── layout/                 # 布局组件（Header, Footer, ThemeToggle, Main）
-│   └── post/                   # 文章组件（PostCard, PostBody）
+│   └── post/                   # 文章组件（PostCard, PostBody, TagList）
 └── lib/
     ├── constants.ts            # 站点配置
     └── posts.ts                # 文章读取、解析逻辑
@@ -68,6 +71,9 @@ npm start
 title: "文章标题"
 date: "2026-03-30"
 excerpt: "文章摘要"
+tags:
+  - tag1
+  - tag2
 ---
 
 文章正文内容...
@@ -75,7 +81,6 @@ excerpt: "文章摘要"
 
 ## 后续规划
 
-- **标签 / 分类系统** — 文章按标签归类，支持按标签筛选
 - **全文搜索** — 基于客户端搜索，快速查找文章
 - **RSS 订阅** — 生成 RSS feed，支持订阅器
 - **评论系统** — 集成 Giscus 或类似方案
