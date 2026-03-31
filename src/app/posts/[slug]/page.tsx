@@ -6,6 +6,7 @@ import PostBody from "@/components/post/PostBody";
 import TagList from "@/components/post/TagList";
 import ReadingTime from "@/components/post/ReadingTime";
 import ReadStatusTracker from "@/components/post/ReadStatusTracker";
+import CodeCopyButton from "@/components/post/CodeCopyButton";
 import Toc from "@/components/post/Toc";
 import { getPostBySlug, getAllSlugs } from "@/lib/posts";
 
@@ -75,6 +76,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
           </header>
           <PostBody content={post.content} />
+          <CodeCopyButton />
         </article>
         <Toc headings={post.headings} />
       </div>

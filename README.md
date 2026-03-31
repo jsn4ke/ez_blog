@@ -27,6 +27,7 @@
 - **文章目录（TOC）** — 自动提取 h2/h3 标题，桌面端 sticky 侧栏，移动端悬浮面板，滚动高亮
 - **阅读历史** — localStorage 记录首次阅读时间，首页显示已读状态和阅读时间
 - **GFM 支持** — 表格、任务列表等 GitHub 风格 Markdown 扩展
+- **GitHub 风格渲染** — 紧凑排版、等宽字体、引用块样式、表格斑马纹、代码块灰底+复制按钮
 - **SEO** — 页面 meta、Open Graph 标签
 
 ## 项目结构
@@ -43,7 +44,7 @@ src/
 │   └── about/page.tsx          # 关于页
 ├── components/
 │   ├── layout/                 # 布局组件（Header, Footer, ThemeToggle, Main）
-│   └── post/                   # 文章组件（PostCard, PostBody, TagList, Toc, ReadingTime, ReadStatus）
+│   └── post/                   # 文章组件（PostCard, PostBody, TagList, Toc, ReadingTime, ReadStatus, CodeCopyButton）
 └── lib/
     ├── constants.ts            # 站点配置
     ├── posts.ts                # 文章读取、解析逻辑

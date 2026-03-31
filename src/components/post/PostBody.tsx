@@ -29,7 +29,6 @@ export default async function PostBody({ content }: PostBodyProps) {
   return (
     <div
       className="prose prose-neutral dark:prose-invert max-w-none
-        prose-pre:bg-[var(--muted)] prose-pre:border prose-pre:border-[var(--border)]
         prose-code:text-sm
         prose-a:text-[var(--accent)] prose-a:no-underline hover:prose-a:underline
         prose-headings:text-[var(--foreground)]

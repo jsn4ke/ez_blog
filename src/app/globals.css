@@ -67,6 +67,51 @@ a:hover {
   background: rgba(110, 118, 129, 0.4);
 }
 
+.prose pre {
+  background: #f6f8fa !important;
+  border-radius: 6px;
+  padding: 16px;
+  position: relative;
+}
+
+.dark .prose pre {
+  background: #0d1117 !important;
+}
+
+.code-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--background);
+  color: var(--muted-foreground);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+  font-size: 12px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+pre:hover .code-copy-btn {
+  opacity: 1;
+}
+
+.code-copy-btn:hover {
+  color: var(--foreground);
+  border-color: var(--muted-foreground);
+}
+
+.code-copy-btn.copied {
+  opacity: 1;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
 .prose pre code {
   background: none;
   padding: 0;
