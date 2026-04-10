@@ -14,6 +14,7 @@
 | [rehype-pretty-code](https://github.com/rehype-pretty-code/rehype-pretty-code) | 代码语法高亮（基于 Shiki） |
 | [remark-gfm](https://github.com/remarkjs/remark-gfm) | GFM 扩展（表格、任务列表等） |
 | [next-themes](https://github.com/pacocoursey/next-themes) | 浅色/深色主题切换 |
+| [mermaid](https://mermaid.js.org/) | Mermaid 图表渲染（流程图、状态图等） |
 
 ## 已实现功能
 
@@ -27,7 +28,11 @@
 - **文章目录（TOC）** — 自动提取 h2/h3 标题，桌面端 sticky 侧栏，移动端悬浮面板，滚动高亮
 - **阅读历史** — localStorage 记录首次阅读时间，首页显示已读状态和阅读时间
 - **GFM 支持** — 表格、任务列表等 GitHub 风格 Markdown 扩展
-- **GitHub 风格渲染** — 紧凑排版、等宽字体、引用块样式、表格斑马纹、代码块灰底+复制按钮
+- **GitHub 风格渲染** — 紧凑排版、等宽字体、引用块样式、表格斑马纹
+- **代码块增强** — 语言标签 header bar、复制按钮、深色模式一体背景（类 VSCode）
+- **Mermaid 图表** — 支持 flowchart、stateDiagram、sequenceDiagram 等，可缩放/拖拽/重置，主题自适应
+- **回到顶部** — 文章详情页右下角浮动按钮，滚动超过 300px 后显示
+- **容错加载** — 无效文章（缺少 frontmatter）自动跳过，不影响其他文章展示
 - **SEO** — 页面 meta、Open Graph 标签
 
 ## 项目结构
@@ -44,7 +49,7 @@ src/
 │   └── about/page.tsx          # 关于页
 ├── components/
 │   ├── layout/                 # 布局组件（Header, Footer, ThemeToggle, Main）
-│   └── post/                   # 文章组件（PostCard, PostBody, TagList, Toc, ReadingTime, ReadStatus, CodeCopyButton）
+│   └── post/                   # 文章组件（PostCard, PostBody, TagList, Toc, ReadingTime, ReadStatus, CodeCopyButton, MermaidRenderer, ScrollToTop）
 └── lib/
     ├── constants.ts            # 站点配置
     ├── posts.ts                # 文章读取、解析逻辑
