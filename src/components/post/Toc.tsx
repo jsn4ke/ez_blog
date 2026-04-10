@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Heading } from "@/lib/posts";
 
 interface TocProps {
@@ -10,12 +10,14 @@ interface TocProps {
 export default function Toc({ headings }: TocProps) {
   const [activeId, setActiveId] = useState<string>("");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const lockedRef = useRef(false);
 
   useEffect(() => {
     if (headings.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
+        if (lockedRef.current) return;
         const visible = entries.filter((e) => e.isIntersecting);
         if (visible.length > 0) {
           setActiveId(visible[visible.length - 1].target.id);
@@ -37,8 +39,14 @@ export default function Toc({ headings }: TocProps) {
   const handleClick = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      lockedRef.current = true;
+      setActiveId(id);
+      const y = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: y, behavior: "smooth" });
       setMobileOpen(false);
+      setTimeout(() => {
+        lockedRef.current = false;
+      }, 1000);
     }
   };
 
@@ -61,6 +69,9 @@ export default function Toc({ headings }: TocProps) {
             >
               {h.text}
             </button>
+            {activeId === h.id && (
+              <span className="block h-px bg-[var(--accent)] mt-1" />
+            )}
           </li>
         ))}
       </ul>
@@ -71,7 +82,7 @@ export default function Toc({ headings }: TocProps) {
     <>
       {/* Desktop: sticky sidebar */}
       <aside className="hidden lg:block w-48 shrink-0">
-        <div className="sticky top-24">{tocItems}</div>
+        <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto">{tocItems}</div>
       </aside>
 
       {/* Mobile: floating button + panel */}

@@ -7,10 +7,56 @@ export default function CodeCopyButton() {
     const container = document.querySelector(".prose");
     if (!container) return;
 
-    const pres = container.querySelectorAll("pre");
-    const buttons: HTMLButtonElement[] = [];
+    const pres = container.querySelectorAll<HTMLPreElement>("pre");
+    const cleanups: (() => void)[] = [];
 
     pres.forEach((pre) => {
+      const lang = pre.querySelector("code")?.getAttribute("data-language");
+
+      // Skip mermaid blocks — handled by MermaidRenderer
+      if (lang === "mermaid") return;
+
+      // Skip plain code blocks (no language) — only add copy button
+      if (!lang) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "code-copy-btn-plain";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = copySvg;
+
+        btn.addEventListener("click", () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent ?? "";
+          navigator.clipboard
+            .writeText(code)
+            .then(() => {
+              btn.textContent = "已复制";
+              btn.classList.add("copied");
+              setTimeout(() => {
+                btn.innerHTML = copySvg;
+                btn.classList.remove("copied");
+              }, 2000);
+            })
+            .catch(() => {
+              btn.textContent = "复制失败";
+              setTimeout(() => {
+                btn.innerHTML = copySvg;
+              }, 2000);
+            });
+        });
+
+        pre.appendChild(btn);
+        return;
+      }
+
+      // Build header bar
+      const header = document.createElement("div");
+      header.className = "code-header-bar";
+
+      const langLabel = document.createElement("span");
+      langLabel.className = "code-lang";
+      langLabel.textContent = lang;
+      header.appendChild(langLabel);
+
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "code-copy-btn";
@@ -37,13 +83,18 @@ export default function CodeCopyButton() {
           });
       });
 
+      header.appendChild(btn);
       pre.style.position = "relative";
-      pre.appendChild(btn);
-      buttons.push(btn);
+      pre.style.paddingTop = "0";
+      pre.insertBefore(header, pre.firstChild);
+
+      // Remove any old standalone copy buttons
+      const oldBtn = pre.querySelector(":scope > .code-copy-btn");
+      if (oldBtn) oldBtn.remove();
     });
 
     return () => {
-      buttons.forEach((btn) => btn.remove());
+      cleanups.forEach((fn) => fn());
     };
   }, []);
 

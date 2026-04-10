@@ -71,6 +71,7 @@ a:hover {
   background: #f6f8fa !important;
   border-radius: 6px;
   padding: 16px;
+  padding-top: 0;
   position: relative;
 }
 
@@ -78,7 +79,61 @@ a:hover {
   background: #0d1117 !important;
 }
 
-.code-copy-btn {
+.prose pre > code {
+  display: block !important;
+}
+
+.prose pre > code > span[data-line] {
+  display: block !important;
+}
+
+.code-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 12px;
+  margin: -16px -16px 12px -16px;
+  background: rgba(175, 184, 193, 0.15);
+  font-size: 12px;
+  line-height: 1;
+  user-select: none;
+}
+
+.dark .code-header-bar {
+  background: rgba(110, 118, 129, 0.15);
+}
+
+.code-header-bar .code-lang {
+  color: var(--muted-foreground);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  text-transform: lowercase;
+}
+
+.code-header-bar .code-copy-btn {
+  padding: 2px 6px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.code-header-bar .code-copy-btn:hover {
+  color: var(--foreground);
+  border-color: var(--border);
+}
+
+.code-header-bar .code-copy-btn.copied {
+  color: var(--accent);
+}
+
+.code-copy-btn-plain {
   position: absolute;
   top: 8px;
   right: 8px;
@@ -94,22 +149,20 @@ a:hover {
   line-height: 1;
   display: flex;
   align-items: center;
-  gap: 4px;
 }
 
-pre:hover .code-copy-btn {
+pre:hover .code-copy-btn-plain {
   opacity: 1;
 }
 
-.code-copy-btn:hover {
+.code-copy-btn-plain:hover {
   color: var(--foreground);
   border-color: var(--muted-foreground);
 }
 
-.code-copy-btn.copied {
+.code-copy-btn-plain.copied {
   opacity: 1;
   color: var(--accent);
-  border-color: var(--accent);
 }
 
 .prose pre code {

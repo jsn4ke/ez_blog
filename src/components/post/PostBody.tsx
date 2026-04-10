@@ -19,7 +19,7 @@ export default async function PostBody({ content }: PostBodyProps) {
         dark: "github-dark-dimmed",
         light: "github-light",
       },
-      keepBackground: true,
+      keepBackground: false,
     })
     .use(rehypeStringify)
     .process(content);
