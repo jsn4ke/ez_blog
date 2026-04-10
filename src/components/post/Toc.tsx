@@ -11,6 +11,7 @@ export default function Toc({ headings }: TocProps) {
   const [activeId, setActiveId] = useState<string>("");
   const [mobileOpen, setMobileOpen] = useState(false);
   const lockedRef = useRef(false);
+  const unlockCleanupRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     if (headings.length === 0) return;
@@ -38,16 +39,36 @@ export default function Toc({ headings }: TocProps) {
 
   const handleClick = (id: string) => {
     const el = document.getElementById(id);
-    if (el) {
-      lockedRef.current = true;
-      setActiveId(id);
-      const y = el.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top: y, behavior: "smooth" });
-      setMobileOpen(false);
-      setTimeout(() => {
-        lockedRef.current = false;
-      }, 1000);
+    if (!el) return;
+
+    // Clean up previous unlock listeners
+    if (unlockCleanupRef.current) {
+      unlockCleanupRef.current();
+      unlockCleanupRef.current = null;
     }
+
+    lockedRef.current = true;
+    setActiveId(id);
+    const y = el.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top: y, behavior: "smooth" });
+    setMobileOpen(false);
+
+    // Unlock only when user manually scrolls (wheel, touch, or keyboard)
+    const onUserScroll = () => {
+      lockedRef.current = false;
+      cleanup();
+    };
+
+    const cleanup = () => {
+      window.removeEventListener("wheel", onUserScroll);
+      window.removeEventListener("touchmove", onUserScroll);
+      window.removeEventListener("keydown", onUserScroll);
+    };
+
+    window.addEventListener("wheel", onUserScroll, { passive: true });
+    window.addEventListener("touchmove", onUserScroll, { passive: true });
+    window.addEventListener("keydown", onUserScroll);
+    unlockCleanupRef.current = cleanup;
   };
 
   const tocItems = (

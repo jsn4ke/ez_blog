@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
+import { slug } from "github-slugger";
 
 
 const postsDirectory = path.join(process.cwd(), "content", "posts");
@@ -178,7 +179,6 @@ export function getSeriesPosts(series: string): PostMeta[] {
 
 export function getHeadings(markdown: string): Heading[] {
   const headings: Heading[] = [];
-  const idCounts = new Map<string, number>();
 
   function extract(node: unknown, depth: number) {
     if (depth > 2) return;
@@ -188,13 +188,7 @@ export function getHeadings(markdown: string): Heading[] {
         const text = (n.children as { value?: string }[])
           .map((c) => c.value ?? "")
           .join("");
-        const baseId = text
-          .toLowerCase()
-          .replace(/[^\w\u4e00-\u9fff]+/g, "-")
-          .replace(/^-|-$/g, "");
-        const count = idCounts.get(baseId) ?? 0;
-        idCounts.set(baseId, count + 1);
-        const id = count > 0 ? `${baseId}-${count}` : baseId;
+        const id = slug(text);
         headings.push({ id, text, level: n.depth });
       }
       if (n.children) {
