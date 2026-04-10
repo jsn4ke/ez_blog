@@ -65,9 +65,8 @@ export function getAllPosts(): PostMeta[] {
       const { data, content } = matter(fileContents);
 
       if (!isValidPostMeta(data)) {
-        throw new Error(
-          `Post "${slug}" is missing required fields: title and date`
-        );
+        console.warn(`Skipping post "${slug}": missing required fields (title, date)`);
+        return null;
       }
 
       return {
@@ -77,7 +76,8 @@ export function getAllPosts(): PostMeta[] {
         excerpt: extractExcerpt(content, data.excerpt),
         tags: extractTags(data),
       };
-    });
+    })
+    .filter((p): p is NonNullable<typeof p> => p != null);
 
   return posts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -95,9 +95,8 @@ export function getPostBySlug(slug: string): Post | null {
   const { data, content } = matter(fileContents);
 
   if (!isValidPostMeta(data)) {
-    throw new Error(
-      `Post "${slug}" is missing required fields: title and date`
-    );
+    console.warn(`Post "${slug}": missing required fields (title, date)`);
+    return null;
   }
 
   return {

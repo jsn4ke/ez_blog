@@ -1,3 +1,12 @@
+---
+title: "MMO 施法状态机：完整设计"
+date: "2026-04-10"
+excerpt: "面向游戏服务端工程师的施法系统设计参考，基于 TrinityCore 施法系统的深度分析"
+tags:
+  - game-dev
+  - architecture
+---
+
 # MMO 施法状态机：完整设计
 
 > 一份面向游戏服务端工程师的施法系统设计参考。本文基于对 TrinityCore（World of Warcraft 私有服务器）施法系统的深度分析，以纯概念方式描述其架构，使读者能够在自己的项目中复刻类似系统。
