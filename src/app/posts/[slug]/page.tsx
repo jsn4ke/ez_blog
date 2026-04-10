@@ -9,6 +9,7 @@ import ReadStatusTracker from "@/components/post/ReadStatusTracker";
 import CodeCopyButton from "@/components/post/CodeCopyButton";
 import MermaidRenderer from "@/components/post/MermaidRenderer";
 import ScrollToTop from "@/components/post/ScrollToTop";
+import SeriesNav from "@/components/post/SeriesNav";
 import Toc from "@/components/post/Toc";
 import { getPostBySlug, getAllSlugs } from "@/lib/posts";
 
@@ -81,6 +82,7 @@ export default async function PostPage({ params }: PostPageProps) {
           <CodeCopyButton />
           <MermaidRenderer />
           <ScrollToTop />
+          {post.series && <SeriesNav series={post.series} order={post.order} />}
         </article>
         <Toc headings={post.headings} />
       </div>

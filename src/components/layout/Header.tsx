@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { siteName } from "@/lib/constants";
 import ThemeToggle from "./ThemeToggle";
+import SearchButton from "./SearchButton";
 
 export default function Header() {
   return (
@@ -28,8 +29,17 @@ export default function Header() {
           >
             Tags
           </Link>
+          <Link
+            href="/series"
+            className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+          >
+            Series
+          </Link>
         </nav>
-        <ThemeToggle />
+        <div className="flex items-center gap-3">
+          <SearchButton />
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

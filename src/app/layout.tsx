@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import SearchProvider from "@/components/search/SearchProvider";
 import { siteName, siteDescription } from "@/lib/constants";
 import "./globals.css";
 
@@ -25,6 +26,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+          <SearchProvider searchUrl="/api/search" />
         </ThemeProvider>
       </body>
     </html>

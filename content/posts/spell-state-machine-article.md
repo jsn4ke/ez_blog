@@ -5,6 +5,8 @@ excerpt: "面向游戏服务端工程师的施法系统设计参考，基于 Tri
 tags:
   - game-dev
   - architecture
+series: "MMO 服务端架构"
+order: 1
 ---
 
 # MMO 施法状态机：完整设计

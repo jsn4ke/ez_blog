@@ -12,6 +12,8 @@ export interface PostMeta {
   date: string;
   excerpt: string;
   tags: string[];
+  series?: string;
+  order?: number;
 }
 
 export interface Post extends PostMeta {
@@ -32,7 +34,7 @@ export interface Heading {
 
 function isValidPostMeta(
   data: Record<string, unknown>
-): data is { title: string; date: string; excerpt?: string; tags?: string[] } {
+): data is { title: string; date: string; excerpt?: string; tags?: string[]; series?: string; order?: number } {
   return typeof data.title === "string" && typeof data.date === "string";
 }
 
@@ -75,6 +77,8 @@ export function getAllPosts(): PostMeta[] {
         date: data.date,
         excerpt: extractExcerpt(content, data.excerpt),
         tags: extractTags(data),
+        series: typeof data.series === "string" ? data.series : undefined,
+        order: typeof data.order === "number" ? data.order : undefined,
       };
     })
     .filter((p): p is NonNullable<typeof p> => p != null);
@@ -105,6 +109,8 @@ export function getPostBySlug(slug: string): Post | null {
     date: data.date,
     excerpt: extractExcerpt(content, data.excerpt),
     tags: extractTags(data),
+    series: typeof data.series === "string" ? data.series : undefined,
+    order: typeof data.order === "number" ? data.order : undefined,
     content,
     headings: getHeadings(content),
   };
@@ -140,6 +146,34 @@ export function getPostsByTag(tag: string): PostMeta[] {
   return getAllPosts().filter(
     (post) => post.tags.includes(tag)
   );
+}
+
+export interface SeriesInfo {
+  name: string;
+  posts: PostMeta[];
+}
+
+export function getAllSeries(): SeriesInfo[] {
+  const seriesMap = new Map<string, PostMeta[]>();
+
+  for (const post of getAllPosts()) {
+    if (!post.series) continue;
+    const existing = seriesMap.get(post.series) ?? [];
+    existing.push(post);
+    seriesMap.set(post.series, existing);
+  }
+
+  return Array.from(seriesMap.entries())
+    .map(([name, posts]) => ({
+      name,
+      posts: posts.sort((a, b) => (a.order ?? 0) - (b.order ?? 0)),
+    }))
+    .sort((a, b) => b.posts[0].date.localeCompare(a.posts[0].date));
+}
+
+export function getSeriesPosts(series: string): PostMeta[] {
+  const info = getAllSeries().find((s) => s.name === series);
+  return info?.posts ?? [];
 }
 
 export function getHeadings(markdown: string): Heading[] {
